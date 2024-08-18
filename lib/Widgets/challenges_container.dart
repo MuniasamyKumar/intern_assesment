@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-
 class ChallengesContainer extends StatelessWidget {
   const ChallengesContainer({
     super.key,
@@ -18,8 +17,9 @@ class ChallengesContainer extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(15)),
               image: DecorationImage(
                   image: AssetImage("assets/Rectangle 2687.png"),
-                  fit: BoxFit.fitHeight)),
+                  fit: BoxFit.cover)),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Padding(
                 padding: const EdgeInsets.only(left: 10),
