@@ -1,9 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
 class ChallengesContainer extends StatelessWidget {
+  final String title;
+  final String task;
+  final String imageUrl;
+  final String completed;
   const ChallengesContainer({
     super.key,
+    required this.title,
+    required this.task,
+    required this.imageUrl,
+    required this.completed,
   });
 
   @override
@@ -11,7 +21,7 @@ class ChallengesContainer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
-          height: 170,
+          height: 200,
           width: double.infinity,
           decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(15)),
@@ -27,9 +37,9 @@ class ChallengesContainer extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Text(
-                      "Today’s Challenge!",
-                      style: TextStyle(
+                    Text(
+                      title,
+                      style: const TextStyle(
                           color: Color(0xff2B7A71),
                           fontSize: 15,
                           fontWeight: FontWeight.bold),
@@ -41,34 +51,34 @@ class ChallengesContainer extends StatelessWidget {
                         borderRadius: BorderRadius.circular(25),
                         color: const Color(0xff2B7A71),
                       ),
-                      child: const Center(
+                      child: Center(
                           child: Text(
-                        "Push Up 20x",
-                        style: TextStyle(
+                        task,
+                        style: const TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
                       )),
                     ),
                     LinearPercentIndicator(
                       padding: const EdgeInsets.all(0),
                       barRadius: const Radius.circular(10),
-                      width: 180,
                       backgroundColor: Colors.white,
                       animation: true,
                       lineHeight: 13.0,
                       animationDuration: 2000,
+                      width: 200,
                       percent: 0.5,
                       progressColor: const Color(0xffFF88A5),
                     ),
-                    const Row(
+                    Row(
                       children: [
                         Text(
-                          "10/20",
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          completed,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           width: 5,
                         ),
-                        Text(
+                        const Text(
                           "Complete",
                           style: TextStyle(),
                         ),
@@ -101,13 +111,16 @@ class ChallengesContainer extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                  height: 100,
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  child: const Image(
-                    image: AssetImage("assets/image 53.png"),
-                    fit: BoxFit.fill,
-                  ))
+              Padding(
+                padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
+                child: SizedBox(
+                    height: 200,
+                    width: MediaQuery.of(context).size.width / 2,
+                    child: const Image(
+                      image: AssetImage("assets/image 53.png"),
+                      fit: BoxFit.fill,
+                    )),
+              )
             ],
           )),
     );

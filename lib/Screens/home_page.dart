@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:intern_assesment/Widgets/custom_ass_container.dart';
+import 'package:slide_switcher/slide_switcher.dart';
 import '../Widgets/appbar.dart';
 import '../Widgets/challenges_container.dart';
 import '../Widgets/custom_head_line.dart';
+import '../Widgets/custom_report_card.dart';
 import '../Widgets/custom_workout_card.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'assesment_view_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   late TabController _tabController;
   int i = 0;
+  int switcherIndex = 0;
   @override
   void initState() {
     super.initState();
@@ -40,89 +46,182 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       ),
       body: Column(
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            child: Container(
-              height: 50,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 241, 241, 250),
-                  borderRadius: BorderRadius.circular(30)),
-              child: TabBar(
-                controller: _tabController,
-                unselectedLabelColor: Color(0xff6B6B6B),
-                labelColor: Colors.blue,
-                indicator: BoxDecoration(
-                  color: const Color.fromRGBO(
-                    0,
-                    97,
-                    228,
-                    1,
-                  ),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                tabs: [
-                  Tab(
-                      child: Text(
-                    "Today's Trip",
-                    style: TextStyle(
-                        fontSize: 16,
-                        // color: Colors.black,
-                        fontWeight: FontWeight.w500),
-                  )),
-                  Tab(
-                      child: Text(
-                    "Trip History",
-                    style: TextStyle(
-                        fontSize: 16,
-                        //  color: Colors.black,
-                        fontWeight: FontWeight.w500),
-                  )),
-                ],
-              ),
-            ),
-          ),
-          Expanded(
-              child: TabBarView(
-            controller: _tabController,
+          SlideSwitcher(
+            containerColor: Colors.grey[200]!,
+            onSelect: (int index) => setState(() => switcherIndex = index),
+            containerHeight: 50,
+            containerWight: 450,
+            indents: 5,
             children: [
-              Text("data"),
-              Text("data"),
+              Text(
+                'My Assessments',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight:
+                      switcherIndex == 0 ? FontWeight.bold : FontWeight.w500,
+                  color: switcherIndex == 0 ? Colors.blue[700] : Colors.grey,
+                ),
+              ),
+              Text(
+                'My Appointments',
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight:
+                      switcherIndex == 1 ? FontWeight.bold : FontWeight.w500,
+                  color: switcherIndex == 1 ? Colors.blue[700] : Colors.grey,
+                ),
+              ),
             ],
-          )),
-          const CustomAssessmentContainer(),
+          ),
+          const SizedBox(height: 20),
+          Expanded(
+              child: switcherIndex == 0
+                  ? const AssessmentList()
+                  : const Text("data2")),
+          // const CustomAssessmentContainer(),
           const CustomHeadLine(
             category: "Challenges",
           ),
-          const ChallengesContainer(),
+          StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('Challenges')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return const Center(child: Text('No data found'));
+                }
+                final item =
+                    snapshot.data!.docs.first.data() as Map<String, dynamic>;
+                return ChallengesContainer(
+                  title: item['title'],
+                  imageUrl: item['imageUrl'],
+                  completed: item['completed'],
+                  task: item['task'],
+                );
+              }),
           const CustomHeadLine(
             category: "Workout Routines",
           ),
-          SizedBox(
-            height: 170,
-            child: ListView(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              children: const [
-                WorkoutCard(
-                  title: 'Sweat Starter',
-                  subtitle: 'Full Body',
-                  difficulty: 'Medium',
-                  tag: 'Lose Weight',
-                  imageUrl: "assets/sd 1.png",
-                ),
-                WorkoutCard(
-                  title: 'Core Crusher',
-                  subtitle: 'Abs',
-                  difficulty: 'Hard',
-                  tag: 'Strength',
-                  imageUrl: "assets/image 54.png",
-                ),
-              ],
-            ),
-          ),
+          SizedBox(height: 170, child: WorkoutRoutinesList()),
         ],
       ),
+    );
+  }
+}
+
+class AppointmentList extends StatelessWidget {
+  const AppointmentList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream:
+          FirebaseFirestore.instance.collection('WorkoutRoutines').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return const Center(child: Text('No data found'));
+        }
+
+        final items = snapshot.data!.docs;
+
+        return GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 10.0,
+            mainAxisSpacing: 10.0,
+            childAspectRatio: 0.75,
+          ),
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            var item = items[index].data() as Map<String, dynamic>;
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: CustomReportCard(),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class WorkoutRoutinesList extends StatelessWidget {
+  const WorkoutRoutinesList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream:
+          FirebaseFirestore.instance.collection('WorkoutRoutines').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return const Center(child: Text('No data found'));
+        }
+
+        final items = snapshot.data!.docs;
+
+        return ListView.builder(
+          itemCount: items.length,
+          shrinkWrap: true,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            var item = items[index].data() as Map<String, dynamic>;
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: WorkoutCard(
+                subtitle: item['subtitle'],
+                imageUrl: item['imageUrl'],
+                title: item['title'],
+                difficulty: item['difficulty'],
+                tag: item['tag'],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+}
+
+class AssessmentList extends StatelessWidget {
+  const AssessmentList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection('Assesments').snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+          return const Center(child: Text('No data found'));
+        }
+
+        final items = snapshot.data!.docs;
+
+        return ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            var item = items[index].data() as Map<String, dynamic>;
+            return ListTile(
+                title: CustomAssessmentContainer(
+              content: item['content'],
+              imageUrl: item['imageUrl'],
+              title: item['title'],
+            ));
+          },
+        );
+      },
     );
   }
 }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
+import '../Widgets/custom_report_card.dart';
+
 class AssesmentViewPage extends StatefulWidget {
   const AssesmentViewPage({super.key});
-
   @override
   State<AssesmentViewPage> createState() => _AssesmentViewPageState();
 }
@@ -141,7 +142,7 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                                 decoration: BoxDecoration(
                                     color: Colors.green[100],
                                     borderRadius: BorderRadius.circular(15)),
-                                child: Row(
+                                child: const Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -159,7 +160,7 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               const Text(
@@ -177,7 +178,8 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                               const Text(
                                 "4.Make sure you exercise as per the instruction provided by the trainer Watch the short preview before each exercise",
                                 style: TextStyle(fontSize: 18),
-                              )
+                              ),
+                             CustomReportCard()
                             ],
                           ),
                         ),

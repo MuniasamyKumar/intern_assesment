@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "121798147157",
+    "project_id": "internassesment-4b743",
+    "storage_bucket": "internassesment-4b743.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121798147157:android:a65d6768bf265a8ce528dc",
+        "android_client_info": {
+          "package_name": "com.example.intern_assesment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHdJiUaHwXAq49WpiyDd3df4IaWDLuCWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
