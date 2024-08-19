@@ -1,36 +1,52 @@
 import 'package:flutter/material.dart';
 
 class CustomReportCard extends StatelessWidget {
-  const CustomReportCard({super.key});
+  final String image;
+  final String title;
+  final Color color;
+
+  const CustomReportCard({
+    super.key,
+    required this.image,
+    required this.title,
+    required this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16.20),
       decoration: BoxDecoration(
-        color: Colors.lightBlue[50],
+        color: color,
         borderRadius: BorderRadius.circular(15),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(15),
             decoration: const BoxDecoration(
               color: Colors.white,
               shape: BoxShape.circle,
             ),
-            child: Image.asset("assets/Layer 32.png"),
-          ),
-          const SizedBox(height: 16.0),
-          const Text(
-            'Cancer 2nd Opinion',
-            style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-              color: Colors.black, // Text color
+            child: Image.asset(
+              image,
+              height: 45,
+              width: 45,
+              fit: BoxFit.cover,
             ),
-            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              title,
+              style: const TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
         ],
       ),

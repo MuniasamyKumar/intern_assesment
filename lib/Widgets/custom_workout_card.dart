@@ -21,25 +21,30 @@ class WorkoutCard extends StatelessWidget {
     return Container(
       width: 400,
       height: 200,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 5),
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(color: Colors.grey),
-            borderRadius: BorderRadius.circular(15)),
+            borderRadius: BorderRadius.circular(30)),
         child: Row(
           children: [
             Container(
-              decoration:
-                  BoxDecoration(borderRadius: BorderRadius.circular(20)),
+              decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 255, 206, 132),
+                  gradient: RadialGradient(colors: [
+                    Colors.orange[100]!,
+                    Colors.orange[200]!,
+                    Colors.orange[100]!,
+                  ]),
+                  borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(30),
+                      bottomLeft: Radius.circular(30)),
+                  image: DecorationImage(
+                      image: NetworkImage(imageUrl), fit: BoxFit.fitHeight)),
               height: double.infinity,
               width: 120,
-              child: Image.network(
-                imageUrl,
-                width: 140,
-                height: 100,
-                fit: BoxFit.fitHeight,
-              ),
             ),
+            const SizedBox(width: 10),
             Padding(
               padding: const EdgeInsets.all(12),
               child: Column(

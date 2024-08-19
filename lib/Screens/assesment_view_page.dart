@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../Widgets/custom_report_card.dart';
+import '../constant.dart';
 
 class AssesmentViewPage extends StatefulWidget {
-  const AssesmentViewPage({super.key});
+  final Map<String, dynamic> data;
+  const AssesmentViewPage({super.key, required this.data});
   @override
   State<AssesmentViewPage> createState() => _AssesmentViewPageState();
 }
@@ -23,72 +25,82 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(
-                height: 30,
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      const Text(
-                        "Health Risk \nAssessment",
-                        style: TextStyle(
-                            color: Color(0xff222E58),
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Material(
-                        borderRadius: BorderRadius.circular(25),
-                        color: Colors.white,
-                        child: const SizedBox(
-                          height: 25,
-                          width: 75,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Icon(
-                                Icons.timer_outlined,
-                                size: 20,
+              Padding(
+                padding: const EdgeInsets.only(left: 30, top: 30),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        SizedBox(
+                          width: getResponsiveWidth(context),
+                          child: Text(
+                            widget.data['title'],
+                            style: const TextStyle(
                                 color: Color(0xff222E58),
-                              ),
-                              Text(
-                                "4 min",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xff222E58),
-                                ),
-                              )
-                            ],
+                                fontSize: 24,
+                                fontWeight: FontWeight.bold),
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: SizedBox(
-                        height: 200,
-                        width: 200,
-                        child: Image.asset("assets/image 216.png")),
-                  )
-                ],
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Material(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.white,
+                          child: const SizedBox(
+                            height: 25,
+                            width: 75,
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.timer_outlined,
+                                  size: 20,
+                                  color: Color(0xff222E58),
+                                ),
+                                SizedBox(
+                                  width: 2,
+                                ),
+                                Text(
+                                  "4 min",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xff222E58),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
+                      child: Hero(
+                        tag: 'img',
+                        child: SizedBox(
+                            height: getResponsiveWidth(context) - 30,
+                            width: getResponsiveWidth(context) - 30,
+                            child: Image.network(widget.data['imageUrl'])),
+                      ),
+                    )
+                  ],
+                ),
               ),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
                 ),
-                height: MediaQuery.of(context).size.height + 200,
+                height: MediaQuery.of(context).size.height * 3,
                 width: double.infinity,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,13 +115,25 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                             fontWeight: FontWeight.bold),
                       ),
                     ),
-                    const Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        CustomCircleAvatar(),
-                        CustomCircleAvatar(),
-                        CustomCircleAvatar(),
-                        CustomCircleAvatar(),
+                        CustomCircleAvatar(
+                          img: "assets/fi_245305.png",
+                          data: widget.data['reports'][0],
+                        ),
+                        CustomCircleAvatar(
+                          img: "assets/Group.png",
+                          data: widget.data['reports'][1],
+                        ),
+                        CustomCircleAvatar(
+                          img: "assets/Group (1).png",
+                          data: widget.data['reports'][2],
+                        ),
+                        CustomCircleAvatar(
+                          img: "assets/002---Fast-Message.png",
+                          data: widget.data['reports'][3],
+                        )
                       ],
                     ),
                     const Padding(
@@ -125,17 +149,27 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                     Padding(
                       padding: const EdgeInsets.all(15),
                       child: Container(
-                        height: 650,
+                        height: getResponsiveHeight(context),
                         width: double.infinity,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.grey),
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, bottom: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              Container(
+                                height: 300,
+                                width: double.infinity,
+                                child: Container(
+                                  height: 200,
+                                  width: 400,
+                                  child: Image.asset("assets/Untitled-1 3.png"),
+                                ),
+                              ),
                               Container(
                                 height: 40,
                                 width: double.infinity,
@@ -161,7 +195,7 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                                 ),
                               ),
                               const SizedBox(
-                                height: 10,
+                                height: 20,
                               ),
                               const Text(
                                 "1.Ensure that you are in a well-lit space",
@@ -179,11 +213,83 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                                 "4.Make sure you exercise as per the instruction provided by the trainer Watch the short preview before each exercise",
                                 style: TextStyle(fontSize: 18),
                               ),
-                             CustomReportCard()
                             ],
                           ),
                         ),
                       ),
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 20, top: 15, bottom: 10),
+                      child: Text(
+                        "Benefits",
+                        style: TextStyle(
+                            color: Color(0xff222E58),
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Container(
+                        height: getResponsiveHeight1(context),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(color: Colors.grey),
+                        ),
+                        child: const Padding(
+                          padding:
+                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "• Holistic Insight into Physical Health Across Multiple Key Areas",
+                                style: TextStyle(fontSize: 18, height: 2),
+                              ),
+                              Text(
+                                "• Enables Early Interventions, Improving Preventive Care and Health Outcomes",
+                                style: TextStyle(fontSize: 18, height: 2),
+                              ),
+                              Text(
+                                "• Tailored Lifestyle and Health Recommendations Based on Detailed Assessment Resultss",
+                                style: TextStyle(fontSize: 18, height: 2),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 30, vertical: 10),
+                      child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                              minimumSize: Size(double.infinity, 60),
+                              backgroundColor: Color(0xff255FD5)),
+                          child: const Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.play_arrow,
+                                color: Colors.white,
+                                size: 35,
+                              ),
+                              SizedBox(width: 10),
+                              Text(
+                                "Start Assesment",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              )
+                            ],
+                          )),
                     )
                   ],
                 ),
@@ -197,8 +303,12 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
 }
 
 class CustomCircleAvatar extends StatelessWidget {
+  final String data;
+  final String img;
   const CustomCircleAvatar({
     super.key,
+    required this.data,
+    required this.img,
   });
 
   @override
@@ -210,25 +320,34 @@ class CustomCircleAvatar extends StatelessWidget {
               borderRadius: BorderRadius.circular(40),
               side: const BorderSide(color: Colors.grey, width: 2)),
           child: Container(
-            height: 80,
-            width: 80,
+            height: 70,
+            width: 70,
             color: Colors.white,
             child: Center(
               child: SizedBox(
                 height: 35,
                 width: 35,
                 child: Image.asset(
-                  "assets/fi_245305.png",
+                  img,
                   fit: BoxFit.fill,
                 ),
               ),
             ),
           ),
         ),
-        const Text(
-          "Key Body\n  Vitals",
-          style:
-              TextStyle(color: Color(0xff303030), fontWeight: FontWeight.bold),
+        SizedBox(
+          width: 90,
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
+              data,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xff303030),
+                  overflow: TextOverflow.clip),
+            ),
+          ),
         )
       ],
     );

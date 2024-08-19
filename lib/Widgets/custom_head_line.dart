@@ -10,7 +10,7 @@ class CustomHeadLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      padding: const EdgeInsets.only(left: 30, right: 30, bottom: 10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -19,7 +19,7 @@ class CustomHeadLine extends StatelessWidget {
             style: const TextStyle(
               color: Color(0xff303030),
               fontSize: 16,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.bold,
             ),
           ),
           Row(

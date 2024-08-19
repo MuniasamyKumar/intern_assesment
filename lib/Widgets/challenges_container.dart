@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../constant.dart';
+
 class ChallengesContainer extends StatelessWidget {
   final String title;
   final String task;
@@ -65,7 +67,7 @@ class ChallengesContainer extends StatelessWidget {
                       animation: true,
                       lineHeight: 13.0,
                       animationDuration: 2000,
-                      width: 200,
+                      width: MediaQuery.of(context).size.width / 2,
                       percent: 0.5,
                       progressColor: const Color(0xffFF88A5),
                     ),
@@ -111,16 +113,13 @@ class ChallengesContainer extends StatelessWidget {
                   ],
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 20, top: 20, bottom: 20),
-                child: SizedBox(
-                    height: 200,
-                    width: MediaQuery.of(context).size.width / 2,
-                    child: const Image(
-                      image: AssetImage("assets/image 53.png"),
-                      fit: BoxFit.fill,
-                    )),
-              )
+              SizedBox(
+                  width: getImgResponsiveWidth(context),
+                  height: getImgResponsiveHeight(context),
+                  child: const Image(
+                    image: AssetImage("assets/image 53.png"),
+                    fit: BoxFit.fill,
+                  ))
             ],
           )),
     );
