@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../Widgets/custom_report_card.dart';
+import '../Widgets/custom_circle_avatar.dart';
+import '../Widgets/custom_step_text.dart';
 import '../constant.dart';
 
 class AssesmentViewPage extends StatefulWidget {
@@ -161,10 +161,10 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
+                              SizedBox(
                                 height: 300,
                                 width: double.infinity,
-                                child: Container(
+                                child: SizedBox(
                                   height: 200,
                                   width: 400,
                                   child: Image.asset("assets/Untitled-1 3.png"),
@@ -197,21 +197,20 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              const Text(
-                                "1.Ensure that you are in a well-lit space",
-                                style: TextStyle(fontSize: 18, height: 2),
+                              CustomStepText(
+                                text: widget.data['steps'][0],
                               ),
-                              const Text(
-                                "2.Allow camera access and place your device against a stable object or wall ",
-                                style: TextStyle(fontSize: 18, height: 2),
+                              CustomStepText(
+                                text: widget.data['steps'][1],
                               ),
-                              const Text(
-                                "3.Avoiding wearing baggy clothes",
-                                style: TextStyle(fontSize: 18, height: 2),
+                              CustomStepText(
+                                text: widget.data['steps'][2],
                               ),
-                              const Text(
-                                "4.Make sure you exercise as per the instruction provided by the trainer Watch the short preview before each exercise",
-                                style: TextStyle(fontSize: 18),
+                              CustomStepText(
+                                text: widget.data['steps'][3],
+                              ),
+                              CustomStepText(
+                                text: widget.data['steps'][4],
                               ),
                             ],
                           ),
@@ -237,26 +236,23 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(color: Colors.grey),
                         ),
-                        child: const Padding(
-                          padding:
-                              EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, bottom: 10),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
-                              Text(
-                                "• Holistic Insight into Physical Health Across Multiple Key Areas",
-                                style: TextStyle(fontSize: 18, height: 2),
+                              CustomStepText(
+                                text: widget.data['steps'][5],
                               ),
-                              Text(
-                                "• Enables Early Interventions, Improving Preventive Care and Health Outcomes",
-                                style: TextStyle(fontSize: 18, height: 2),
+                              CustomStepText(
+                                text: widget.data['steps'][6],
                               ),
-                              Text(
-                                "• Tailored Lifestyle and Health Recommendations Based on Detailed Assessment Resultss",
-                                style: TextStyle(fontSize: 18, height: 2),
+                              CustomStepText(
+                                text: widget.data['steps'][7],
                               ),
                             ],
                           ),
@@ -269,8 +265,8 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
                       child: ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
-                              minimumSize: Size(double.infinity, 60),
-                              backgroundColor: Color(0xff255FD5)),
+                              minimumSize: const Size(double.infinity, 60),
+                              backgroundColor: const Color(0xff255FD5)),
                           child: const Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -298,58 +294,6 @@ class _AssesmentViewPageState extends State<AssesmentViewPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class CustomCircleAvatar extends StatelessWidget {
-  final String data;
-  final String img;
-  const CustomCircleAvatar({
-    super.key,
-    required this.data,
-    required this.img,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Material(
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(40),
-              side: const BorderSide(color: Colors.grey, width: 2)),
-          child: Container(
-            height: 70,
-            width: 70,
-            color: Colors.white,
-            child: Center(
-              child: SizedBox(
-                height: 35,
-                width: 35,
-                child: Image.asset(
-                  img,
-                  fit: BoxFit.fill,
-                ),
-              ),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 90,
-          child: Align(
-            alignment: Alignment.center,
-            child: Text(
-              data,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xff303030),
-                  overflow: TextOverflow.clip),
-            ),
-          ),
-        )
-      ],
     );
   }
 }
